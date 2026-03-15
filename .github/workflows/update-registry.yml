@@ -1,0 +1,80 @@
+name: Update Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+
+permissions:
+  contents: write
+
+jobs:
+  update-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate registry.json
+        run: |
+          python3 << 'SCRIPT'
+          import os, json, re
+          from datetime import datetime, timezone
+
+          skills = []
+          skills_dir = "skills"
+
+          for slug in sorted(os.listdir(skills_dir)):
+              skill_md = os.path.join(skills_dir, slug, "SKILL.md")
+              if not os.path.isfile(skill_md):
+                  continue
+
+              with open(skill_md) as f:
+                  content = f.read()
+
+              # Parse YAML frontmatter
+              fm_match = re.match(r"^---\n(.*?)\n---", content, re.DOTALL)
+              if not fm_match:
+                  continue
+
+              fm = fm_match.group(1)
+              name_match = re.search(r"^name:\s*(.+)$", fm, re.MULTILINE)
+              desc_match = re.search(r"^description:\s*(.+)$", fm, re.MULTILINE)
+              tags_section = re.search(r"^tags:\s*\n((?:\s+-\s+.+\n?)+)", fm, re.MULTILINE)
+
+              name = name_match.group(1).strip().strip("\"'") if name_match else slug
+              description = desc_match.group(1).strip().strip("\"'") if desc_match else ""
+              tags = []
+              if tags_section:
+                  tags = [t.strip().strip("\"'") for t in re.findall(r"-\s+(.+)", tags_section.group(1))]
+
+              repo = os.environ.get("GITHUB_REPOSITORY", "selfsupervised-ai/skills")
+              skills.append({
+                  "name": name,
+                  "slug": slug,
+                  "description": description,
+                  "author": repo.split("/")[0],
+                  "tags": tags,
+                  "githubUrl": f"https://github.com/{repo}/tree/main/skills/{slug}"
+              })
+
+          registry = {
+              "version": 1,
+              "updated_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "skills": skills
+          }
+
+          with open("registry.json", "w") as f:
+              json.dump(registry, f, indent=2)
+              f.write("\n")
+
+          print(f"Updated registry with {len(skills)} skills")
+          SCRIPT
+
+      - name: Commit registry.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add registry.json
+          git diff --cached --quiet || git commit -m "chore: update registry.json [skip ci]"
+          git push
