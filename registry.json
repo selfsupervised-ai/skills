@@ -1,37 +1,29 @@
 {
   "version": 1,
-  "updated_at": "2026-03-15T12:00:00Z",
+  "updated_at": "2026-03-15T00:30:38Z",
   "skills": [
     {
       "name": "Code Reviewer",
       "slug": "code-reviewer",
       "description": "Reviews code for bugs, style issues, and security vulnerabilities",
       "author": "selfsupervised-ai",
-      "tags": ["review", "security", "quality"],
+      "tags": [
+        "review",
+        "security",
+        "quality"
+      ],
       "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/code-reviewer"
-    },
-    {
-      "name": "Test Writer",
-      "slug": "test-writer",
-      "description": "Generates unit and integration tests with high coverage",
-      "author": "selfsupervised-ai",
-      "tags": ["testing", "quality", "automation"],
-      "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/test-writer"
-    },
-    {
-      "name": "Refactor Helper",
-      "slug": "refactor-helper",
-      "description": "Suggests and applies refactoring patterns to improve code quality",
-      "author": "selfsupervised-ai",
-      "tags": ["refactoring", "quality", "patterns"],
-      "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/refactor-helper"
     },
     {
       "name": "Doc Generator",
       "slug": "doc-generator",
       "description": "Generates documentation from code including API docs and guides",
       "author": "selfsupervised-ai",
-      "tags": ["documentation", "api", "developer-experience"],
+      "tags": [
+        "documentation",
+        "api",
+        "developer-experience"
+      ],
       "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/doc-generator"
     },
     {
@@ -39,8 +31,36 @@
       "slug": "git-commit-helper",
       "description": "Crafts conventional commit messages from staged changes",
       "author": "selfsupervised-ai",
-      "tags": ["git", "workflow", "automation"],
+      "tags": [
+        "git",
+        "workflow",
+        "automation"
+      ],
       "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/git-commit-helper"
+    },
+    {
+      "name": "Refactor Helper",
+      "slug": "refactor-helper",
+      "description": "Suggests and applies refactoring patterns to improve code quality",
+      "author": "selfsupervised-ai",
+      "tags": [
+        "refactoring",
+        "quality",
+        "patterns"
+      ],
+      "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/refactor-helper"
+    },
+    {
+      "name": "Test Writer",
+      "slug": "test-writer",
+      "description": "Generates unit and integration tests with high coverage",
+      "author": "selfsupervised-ai",
+      "tags": [
+        "testing",
+        "quality",
+        "automation"
+      ],
+      "githubUrl": "https://github.com/selfsupervised-ai/skills/tree/main/skills/test-writer"
     }
   ]
 }
